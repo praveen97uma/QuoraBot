@@ -58,11 +58,11 @@ def prepareEmailBody(data):
 	return body
 	
 def send_mail(data):
-	mail_server = smtplib.SMTP(config.YAHOO_SMTP_HOST, config.YAHOO_SMTP_PORT)
+	mail_server = smtplib.SMTP(config.GMAIL_SMTP_HOST, config.GMAIL_SMTP_PORT)
 	#mail_server.set_debuglevel(0)
 	mail_server.ehlo()
 	mail_server.starttls()
-	mail_server.login(config.YAHOO_USERNAME, config.YAHOO_PASSWORD)
+	mail_server.login(config.GMAIL_USERNAME, config.GMAIL_PASSWORD)
 	
 	body = prepareEmailBody(data)
 	current_time = "<p><b>Time:</b> %s</p>"%(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
@@ -70,7 +70,7 @@ def send_mail(data):
 	headers = config.EMAIL_HEADERS                   
 	email_content = headers + "\r\n\r\n" + body
 	print "Sending mail"
-	mail_server.sendmail(config.YAHOO_USERNAME, config.RECIPIENT_ADDRESS, email_content)
+	mail_server.sendmail(config.GMAIL_USERNAME, config.RECIPIENT_ADDRESS, email_content)
 	mail_server.quit()
 			
 if __name__=='__main__':
