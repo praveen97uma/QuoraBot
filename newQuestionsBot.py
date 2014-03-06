@@ -5,7 +5,7 @@ from datetime import datetime
 
 import time
 import smtplib
-
+from pyvirtualdisplay import Display
 import config
 
 def loginIntoQuora(email, password):
@@ -72,10 +72,16 @@ def send_mail(data):
 	print "Sending mail"
 	mail_server.sendmail(config.GMAIL_USERNAME, config.RECIPIENT_ADDRESS, email_content)
 	mail_server.quit()
-			
-if __name__=='__main__':
+
+def fetchAndMailNewQuestions(disable_display=True):
+    if disable_display:
+        display = Display(visible=0, size=(1024, 768))
+        display.start()
 	browser = loginIntoQuora(config.QUORA_USERNAME, config.QUORA_PASSWORD)
-	sendPageDownPressEvents(browser, 10)
+	sendPageDownPressEvents(browser, config.NO_OF_PAGEDOWNS)
 	questions = getNewQuestions(browser)
 	browser.quit()
-	send_mail(questions)
+	send_mail(questions)    
+			
+if __name__=='__main__':
+    fetchAndMailNewQuestions()
